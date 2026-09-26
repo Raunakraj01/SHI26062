@@ -1,0 +1,1576 @@
+/**
+ * POLAR-OPS — Integrated Polar Expedition Operations & Logistics Platform
+ * Antarctic Expedition Command Center Stylesheet
+ *
+ * Full-screen specialized operational workspace:
+ * - High-precision SVG Polar Operations Visualizer with animated route vectors & pulsing station beacons
+ * - Tactical narrow command rail navigation
+ * - Compact horizontal mission telemetry strip
+ * - Operational structured monitor, logistics pipeline flow & dedicated incident deck
+ */
+
+/* ==========================================================================
+   1. COMMAND CENTER LAYOUT ARCHITECTURE
+   ========================================================================== */
+body.command-center-mode {
+  background-color: var(--polar-bg-base, #f1f5f9);
+  color: var(--polar-text-primary);
+  overflow-x: hidden;
+}
+
+.command-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Command Header Deck */
+.command-header,
+.command-center-mode .app-header {
+  height: 56px;
+  background-color: var(--polar-header-bg, rgba(9, 14, 26, 0.95));
+  border-bottom: 1px solid var(--polar-header-border, #16233b);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-4);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  backdrop-filter: blur(12px);
+}
+
+.command-header .brand-identity,
+.command-center-mode .app-header .brand-identity {
+  gap: var(--space-2);
+}
+
+.command-header .brand-title {
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  letter-spacing: 0.08em;
+  font-weight: 800;
+  color: var(--polar-ice-white);
+}
+
+.command-header .brand-sub {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--polar-cyan-primary);
+  letter-spacing: 0.06em;
+}
+
+/* Center Clock & Station Network Status */
+.command-telemetry-center {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.command-clock-box {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 3px 10px;
+  background: rgba(6, 11, 22, 0.85);
+  border: 1px solid #1c2b48;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+}
+
+.clock-label {
+  color: var(--polar-text-muted);
+}
+
+.clock-value {
+  color: var(--polar-ice-white);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.command-network-status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+}
+
+.network-node {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--polar-text-secondary);
+}
+
+.network-node.active .status-pip {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--status-green);
+  box-shadow: 0 0 6px var(--status-green);
+}
+
+.network-sep {
+  color: #1e2d4a;
+}
+
+/* Right Header Deck */
+.command-header-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.env-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  background: rgba(0, 229, 255, 0.06);
+  border: 1px solid rgba(0, 229, 255, 0.25);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--polar-cyan-primary);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.env-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--polar-cyan-primary);
+}
+
+.command-emergency-btn {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.emergency-badge-pulse {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  background: rgba(239, 68, 68, 0.16);
+  border: 1px solid var(--status-red-border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #fca5a5;
+  letter-spacing: 0.05em;
+  transition: all var(--transition-fast);
+}
+
+.emergency-badge-pulse:hover {
+  background: rgba(239, 68, 68, 0.3);
+  border-color: var(--status-red);
+}
+
+.operator-profile.compact {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.operator-profile.compact .operator-avatar {
+  width: 28px;
+  height: 28px;
+  font-size: 0.72rem;
+}
+
+/* Command Body */
+.command-body {
+  display: flex;
+  flex: 1;
+  margin-top: 0;
+  min-height: calc(100vh - 56px);
+}
+
+/* Tactical Command Rail Navigation */
+.command-body .app-sidebar,
+.command-rail {
+  width: 64px !important;
+  background-color: var(--polar-rail-bg, #080d19);
+  border-right: 1px solid var(--polar-rail-border, #141f33);
+  position: sticky !important;
+  top: 56px !important;
+  height: calc(100vh - 56px) !important;
+  padding: var(--space-3) 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  z-index: var(--z-sidebar);
+  flex-shrink: 0;
+}
+
+.command-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.rail-item {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  color: var(--polar-text-secondary);
+  border: 1px solid transparent;
+  text-decoration: none;
+  position: relative;
+  transition: all var(--transition-fast);
+  padding: 0;
+}
+
+.rail-item .icon {
+  width: 20px;
+  height: 20px;
+}
+
+.rail-label {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  margin-top: 2px;
+  letter-spacing: 0.02em;
+}
+
+.rail-item:hover {
+  color: var(--polar-ice-white);
+  background-color: rgba(0, 229, 255, 0.08);
+  border-color: rgba(0, 229, 255, 0.2);
+}
+
+.rail-item.active {
+  color: var(--polar-cyan-primary);
+  background-color: rgba(0, 229, 255, 0.12);
+  border-color: var(--polar-cyan-primary);
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+}
+
+.rail-item.active::before {
+  content: '';
+  position: absolute;
+  left: -10px;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  border-radius: 0 2px 2px 0;
+  background-color: var(--polar-cyan-primary);
+}
+
+.rail-item.alert-rail {
+  color: #f87171;
+}
+
+.rail-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: var(--space-2);
+}
+
+.rail-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--status-green);
+  box-shadow: 0 0 8px var(--status-green);
+}
+
+/* Command Main Workspace */
+.command-body .app-main,
+.command-main {
+  flex: 1;
+  background-color: var(--polar-bg-base, #f1f5f9);
+  padding: var(--space-4) var(--space-5) !important;
+  margin-left: 0 !important;
+  overflow-y: auto;
+  min-width: 0;
+}
+
+.command-body .page-container,
+.command-workspace {
+  max-width: 1720px !important;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* ==========================================================================
+   2. PRIMARY POLAR OPERATIONS VISUALIZATION (HERO COMPONENT)
+   ========================================================================== */
+.command-visualization-panel {
+  background-color: #090e1c;
+  border: 1px solid #192742;
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-4);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+}
+
+/* Visualizer Top Bar */
+.vis-header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #142036;
+  padding-bottom: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.vis-title-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.vis-telemetry-tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  background: rgba(0, 229, 255, 0.12);
+  color: var(--polar-cyan-primary);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.05em;
+}
+
+.vis-title {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--polar-ice-white);
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+.vis-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.vis-mode-chip {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--polar-text-muted);
+}
+
+.vis-live-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--status-green);
+  font-weight: 600;
+}
+
+.vis-live-indicator .live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--status-green);
+  box-shadow: 0 0 6px var(--status-green);
+}
+
+/* Polar SVG Canvas Container */
+.polar-svg-container {
+  width: 100%;
+  height: 420px;
+  position: relative;
+  background: radial-gradient(circle at 50% 50%, #0d1527 0%, #070c17 80%);
+  border: 1px solid #16243d;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.polar-svg-map {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* SVG Map Visual Elements */
+.polar-grid-ring {
+  fill: none;
+  stroke: rgba(30, 48, 80, 0.45);
+  stroke-width: 1;
+  stroke-dasharray: 4 6;
+}
+
+.polar-axis-line {
+  stroke: rgba(30, 48, 80, 0.35);
+  stroke-width: 1;
+  stroke-dasharray: 2 4;
+}
+
+.polar-grid-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  fill: rgba(100, 116, 139, 0.65);
+  letter-spacing: 0.05em;
+}
+
+.polar-coastline {
+  fill: rgba(2, 132, 199, 0.05);
+  stroke: rgba(0, 229, 255, 0.3);
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 4px rgba(0, 229, 255, 0.15));
+}
+
+.ice-shelf-feature {
+  fill: rgba(56, 189, 248, 0.08);
+  stroke: rgba(56, 189, 248, 0.35);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+
+/* Stations */
+.station-group {
+  cursor: pointer;
+  transition: transform var(--transition-fast);
+}
+
+.station-node-center {
+  fill: var(--polar-cyan-primary);
+  stroke: #ffffff;
+  stroke-width: 1.5;
+}
+
+.station-pulse-outer {
+  fill: none;
+  stroke: var(--polar-cyan-primary);
+  stroke-width: 1;
+  animation: stationPulse 2.8s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+  transform-origin: center;
+}
+
+@keyframes stationPulse {
+  0% {
+    r: 6;
+    opacity: 0.8;
+  }
+  60% {
+    r: 22;
+    opacity: 0;
+  }
+  100% {
+    r: 6;
+    opacity: 0;
+  }
+}
+
+.station-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  fill: var(--polar-ice-white);
+  letter-spacing: 0.06em;
+}
+
+.station-sublabel {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  fill: var(--polar-text-muted);
+}
+
+.station-group:hover .station-node-center {
+  fill: #ffffff;
+  filter: drop-shadow(0 0 8px var(--polar-cyan-primary));
+}
+
+/* Expedition Routes */
+.expedition-route-path {
+  fill: none;
+  stroke: var(--polar-cyan-primary);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 6 4;
+  animation: routeDashDraw 1.2s ease-out forwards;
+  transition: stroke var(--transition-fast), stroke-width var(--transition-fast);
+  cursor: pointer;
+}
+
+.expedition-route-path.delayed {
+  stroke: var(--status-amber);
+}
+
+.expedition-route-path.hovered {
+  stroke: #ffffff;
+  stroke-width: 3.5;
+  filter: drop-shadow(0 0 8px var(--polar-cyan-primary));
+}
+
+@keyframes routeDashDraw {
+  from {
+    stroke-dashoffset: 120;
+    opacity: 0;
+  }
+  to {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+/* Moving Beacon Dot */
+.route-beacon-dot {
+  fill: #ffffff;
+  stroke: var(--polar-cyan-primary);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 6px var(--polar-cyan-primary));
+}
+
+/* Arctic Inset Frame */
+.arctic-inset-frame {
+  fill: rgba(8, 14, 26, 0.9);
+  stroke: #1c2b48;
+  stroke-width: 1;
+  rx: 6;
+}
+
+/* On-Map HUD Card Overlay */
+.polar-map-hud {
+  position: absolute;
+  bottom: var(--space-3);
+  right: var(--space-3);
+  width: 340px;
+  background: rgba(10, 16, 30, 0.92);
+  border: 1px solid #1c2e4f;
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  font-family: var(--font-mono);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  z-index: 10;
+  pointer-events: none;
+  transition: border-color var(--transition-fast);
+}
+
+.hud-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #172744;
+  padding-bottom: 4px;
+  margin-bottom: var(--space-2);
+}
+
+.hud-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--polar-cyan-primary);
+  letter-spacing: 0.05em;
+}
+
+.hud-status {
+  font-size: 0.65rem;
+  color: var(--status-green);
+  font-weight: 600;
+}
+
+.hud-body {
+  font-size: 0.72rem;
+  color: var(--polar-text-secondary);
+  line-height: 1.4;
+}
+
+/* ==========================================================================
+   3. COMPACT MISSION TELEMETRY STRIP (REPLACING SAAS CARDS)
+   ========================================================================== */
+.command-telemetry-strip {
+  width: 100%;
+}
+
+.dashboard-kpi-grid,
+.command-kpi-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-3);
+  margin-bottom: 0;
+}
+
+.command-kpi-strip .kpi-card {
+  background-color: var(--polar-bg-surface, #ffffff);
+  border: 1px solid var(--polar-border-subtle, #dbeafe);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-2);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.command-kpi-strip .kpi-card:hover {
+  border-color: var(--polar-border-active, #0284c7);
+  transform: translateY(-1px);
+}
+
+.command-kpi-strip .kpi-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.command-kpi-strip .kpi-icon-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  background: var(--polar-bg-surface-elevated, #f8fafc);
+  border: 1px solid var(--polar-border-subtle, #cbd5e1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.command-kpi-strip .kpi-icon-badge svg {
+  width: 15px;
+  height: 15px;
+}
+
+.command-kpi-strip .kpi-tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  color: var(--polar-text-muted);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.command-kpi-strip .kpi-body {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+
+.command-kpi-strip .kpi-value {
+  font-family: var(--font-mono);
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: var(--polar-text-primary, #0f172a);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.command-kpi-strip .kpi-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--polar-text-secondary);
+  letter-spacing: 0.05em;
+}
+
+.command-kpi-strip .kpi-footer {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--polar-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-top: var(--space-1);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* KPI Semantic Edge Accents */
+.command-kpi-strip .kpi-card.kpi-expeditions { border-left: 3px solid var(--polar-cyan-primary); }
+.command-kpi-strip .kpi-card.kpi-expeditions .kpi-icon-badge { color: var(--polar-cyan-primary); }
+
+.command-kpi-strip .kpi-card.kpi-cargo { border-left: 3px solid var(--status-cyan); }
+.command-kpi-strip .kpi-card.kpi-cargo .kpi-icon-badge { color: var(--status-cyan); }
+
+.command-kpi-strip .kpi-card.kpi-personnel { border-left: 3px solid var(--status-green); }
+.command-kpi-strip .kpi-card.kpi-personnel .kpi-icon-badge { color: var(--status-green); }
+
+.command-kpi-strip .kpi-card.kpi-emergencies { border-left: 3px solid var(--status-red); }
+.command-kpi-strip .kpi-card.kpi-emergencies .kpi-icon-badge { color: var(--status-red); }
+.command-kpi-strip .kpi-card.kpi-emergencies.has-critical {
+  box-shadow: 0 0 14px rgba(239, 68, 68, 0.18);
+}
+
+/* ==========================================================================
+   4. LOWER COMMAND OPERATIONS WORKSPACE & DECKS
+   ========================================================================== */
+.dashboard-grid-two-col,
+.command-grid-deck {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: var(--space-4);
+}
+
+.command-deck-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.command-card {
+  background-color: var(--polar-bg-surface, #ffffff);
+  border: 1px solid var(--polar-border-subtle, #dbeafe);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.command-card-header {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--polar-border-subtle, #e2e8f0);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.command-card-header .polar-card-title {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--polar-ice-white, #0f172a);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.command-card-body {
+  padding: var(--space-4);
+}
+
+/* Structured Operations Rows (Dense Mission List) */
+.command-ops-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.expedition-item {
+  background-color: var(--polar-bg-surface-elevated, #f8fafc);
+  border: 1px solid var(--polar-border-subtle, #e2e8f0);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.expedition-item:hover,
+.expedition-item.active-highlight {
+  background-color: rgba(18, 28, 52, 0.95);
+  border-color: var(--polar-cyan-primary);
+  transform: translateX(2px);
+}
+
+.expedition-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.expedition-name {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--polar-ice-white);
+}
+
+.expedition-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: 0.72rem;
+  color: var(--polar-text-secondary);
+}
+
+.expedition-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.progress-track {
+  width: 100%;
+  height: 5px;
+  background-color: rgba(8, 12, 22, 0.7);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  background: linear-gradient(90deg, var(--polar-blue-deep) 0%, var(--polar-cyan-primary) 100%);
+  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.progress-fill.completed {
+  background: linear-gradient(90deg, #059669 0%, var(--status-green) 100%);
+}
+
+.progress-fill.delayed {
+  background: linear-gradient(90deg, #d97706 0%, var(--status-amber) 100%);
+}
+
+.progress-meta-text {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--polar-text-muted);
+}
+
+/* ==========================================================================
+   5. LOGISTICS PIPELINE FLOW DIAGRAM
+   ========================================================================== */
+.cargo-pipeline-diagram {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--polar-bg-surface-elevated, #f8fafc);
+  border-bottom: 1px solid var(--polar-border-subtle, #e2e8f0);
+  font-family: var(--font-mono);
+}
+
+.flow-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-align: center;
+}
+
+.flow-stage-count {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--polar-ice-white);
+}
+
+.flow-stage-label {
+  font-size: 0.62rem;
+  color: var(--polar-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.flow-arrow {
+  color: #1e304f;
+  font-size: 0.8rem;
+}
+
+.flow-stage.flow-delayed .flow-stage-count {
+  color: var(--status-amber);
+}
+
+/* Compact Manifest Table */
+.cargo-table-wrapper {
+  overflow-x: auto;
+}
+
+.cargo-table-wrapper .polar-table {
+  font-size: 0.75rem;
+}
+
+.cargo-table-wrapper .polar-table th {
+  font-size: 0.68rem;
+  padding: var(--space-2) var(--space-3);
+}
+
+.cargo-table-wrapper .polar-table td {
+  padding: var(--space-2) var(--space-3);
+}
+
+.cargo-route-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cargo-route-origin {
+  font-size: 0.68rem;
+  color: var(--polar-text-muted);
+}
+
+.cargo-route-dest {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--polar-ice-white);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ==========================================================================
+   6. INVENTORY SUPPLY STATUS BARS
+   ========================================================================== */
+.inventory-segmented-bar {
+  display: flex;
+  height: 6px;
+  width: 100%;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  background-color: rgba(8, 12, 22, 0.7);
+  margin-bottom: var(--space-3);
+  gap: 2px;
+}
+
+.inventory-segmented-bar .seg-optimal {
+  background-color: var(--status-green);
+  transition: width 0.6s ease;
+}
+
+.inventory-segmented-bar .seg-low {
+  background-color: var(--status-amber);
+  transition: width 0.6s ease;
+}
+
+.inventory-segmented-bar .seg-critical {
+  background-color: var(--status-red);
+  transition: width 0.6s ease;
+}
+
+.inventory-health-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.inv-health-stat {
+  padding: var(--space-2);
+  border-radius: var(--radius-sm);
+  background-color: var(--polar-bg-surface-elevated, #f8fafc);
+  border: 1px solid var(--polar-border-subtle, #e2e8f0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-align: center;
+}
+
+.inv-health-stat .count {
+  font-family: var(--font-mono);
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.inv-health-stat .label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.inv-health-stat.stat-optimal .count { color: var(--status-green); }
+.inv-health-stat.stat-optimal .label { color: var(--status-green); }
+
+.inv-health-stat.stat-low .count { color: var(--status-amber); }
+.inv-health-stat.stat-low .label { color: var(--status-amber); }
+
+.inv-health-stat.stat-critical .count { color: var(--status-red); }
+.inv-health-stat.stat-critical .label { color: var(--status-red); }
+
+.inventory-critical-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.inv-critical-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2) var(--space-3);
+  background-color: rgba(239, 68, 68, 0.06);
+  border: 1px solid var(--status-red-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.72rem;
+}
+
+.inv-critical-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.inv-critical-name {
+  font-weight: 600;
+  color: var(--polar-ice-white);
+}
+
+.inv-critical-loc {
+  color: var(--polar-text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+}
+
+.inv-critical-stock {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: #f87171;
+  text-align: right;
+  font-size: 0.75rem;
+}
+
+/* ==========================================================================
+   7. DEDICATED INCIDENT MONITOR DECK
+   ========================================================================== */
+.incident-deck-card {
+  border-top: 3px solid var(--status-red);
+}
+
+.emergency-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.emergency-alert-card {
+  background-color: rgba(14, 21, 38, 0.85);
+  border-radius: var(--radius-sm);
+  border: 1px solid #1b2a47;
+  border-left: 3px solid #283a5e;
+  padding: var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.emergency-alert-card.critical {
+  border-left: 3px solid var(--status-red);
+  background-color: rgba(239, 68, 68, 0.04);
+}
+
+.emergency-alert-card.high {
+  border-left: 3px solid var(--status-amber);
+  background-color: rgba(245, 158, 11, 0.04);
+}
+
+.emergency-alert-card.medium {
+  border-left: 3px solid #283a5e;
+}
+
+.emergency-alert-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.emergency-alert-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--polar-ice-white);
+  line-height: 1.3;
+}
+
+.severity-indicator-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 7px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.severity-indicator-pill.critical {
+  background-color: rgba(239, 68, 68, 0.2);
+  border: 1px solid var(--status-red);
+  color: #fca5a5;
+}
+
+.severity-indicator-pill.critical .severity-pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--status-red);
+  display: inline-block;
+  animation: criticalDotPulse 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes criticalDotPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  50% {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 5px rgba(239, 68, 68, 0);
+  }
+}
+
+@keyframes criticalPulseOnly {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  50% {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 5px rgba(239, 68, 68, 0);
+  }
+}
+
+.severity-indicator-pill.high {
+  background-color: rgba(245, 158, 11, 0.2);
+  border: 1px solid var(--status-amber);
+  color: #fcd34d;
+}
+
+.severity-indicator-pill.medium {
+  background-color: rgba(100, 116, 139, 0.2);
+  border: 1px solid var(--status-neutral);
+  color: var(--polar-text-secondary);
+}
+
+.emergency-alert-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: 0.68rem;
+  color: var(--polar-text-secondary);
+}
+
+.emergency-alert-desc {
+  font-size: 0.7rem;
+  color: var(--polar-text-secondary);
+  line-height: 1.4;
+}
+
+.emergency-all-clear {
+  padding: var(--space-6) var(--space-4);
+  text-align: center;
+  color: var(--status-green);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.emergency-all-clear svg {
+  width: 32px;
+  height: 32px;
+}
+
+/* ==========================================================================
+   8. LIVE OPERATIONAL EVENT STREAM
+   ========================================================================== */
+.activity-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  position: relative;
+}
+
+.activity-timeline::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 15px;
+  width: 2px;
+  background-color: var(--polar-border-subtle, #e2e8f0);
+}
+
+.activity-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  position: relative;
+  transition: transform var(--transition-fast);
+}
+
+.activity-item:hover {
+  transform: translateX(2px);
+}
+
+.activity-node {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: var(--polar-bg-surface-elevated, #f8fafc);
+  border: 1.5px solid var(--polar-border-subtle, #cbd5e1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--polar-cyan-primary);
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.activity-node svg {
+  width: 14px;
+  height: 14px;
+}
+
+.activity-node.emergency {
+  border-color: var(--status-red);
+  color: var(--status-red);
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+.activity-node.cargo {
+  border-color: var(--status-cyan);
+  color: var(--status-cyan);
+}
+
+.activity-node.personnel {
+  border-color: var(--status-green);
+  color: var(--status-green);
+}
+
+.activity-content {
+  flex: 1;
+  background-color: var(--polar-bg-surface-elevated, #f8fafc);
+  border: 1px solid var(--polar-border-subtle, #e2e8f0);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.activity-meta-tag-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.activity-category-tag {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--polar-cyan-primary);
+  letter-spacing: 0.05em;
+  font-weight: 700;
+}
+
+.activity-msg {
+  font-size: 0.72rem;
+  color: var(--polar-text-primary);
+  line-height: 1.35;
+}
+
+.activity-timestamp {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--polar-text-muted);
+}
+
+/* ==========================================================================
+   9. OPERATIONAL INSIGHTS (DETERMINISTIC RULE-BASED)
+   ========================================================================== */
+.insights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-2);
+}
+
+.insight-card {
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  background-color: var(--polar-bg-surface-elevated, #f8fafc);
+  border: 1px solid var(--polar-border-subtle, #e2e8f0);
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  transition: border-color var(--transition-fast);
+}
+
+.insight-card:hover {
+  border-color: var(--polar-border-active, #0284c7);
+}
+
+.insight-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.insight-icon svg {
+  width: 14px;
+  height: 14px;
+}
+
+.insight-icon.critical {
+  background-color: var(--status-red-bg);
+  color: var(--status-red);
+  border: 1px solid var(--status-red-border);
+}
+
+.insight-icon.warning {
+  background-color: var(--status-amber-bg);
+  color: var(--status-amber);
+  border: 1px solid var(--status-amber-border);
+}
+
+.insight-icon.info {
+  background-color: var(--polar-cyan-dim);
+  color: var(--polar-cyan-primary);
+  border: 1px solid rgba(0, 229, 255, 0.3);
+}
+
+.insight-text-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.insight-headline {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--polar-text-primary, #0f172a);
+}
+
+.insight-detail {
+  font-size: 0.68rem;
+  color: var(--polar-text-secondary);
+  line-height: 1.3;
+}
+
+/* ==========================================================================
+   10. RESPONSIVE BREAKPOINTS
+   ========================================================================== */
+@media (max-width: 1200px) {
+  .command-kpi-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .command-grid-deck {
+    grid-template-columns: 1fr;
+  }
+  .polar-svg-container {
+    height: 360px;
+  }
+}
+
+@media (max-width: 768px) {
+  .command-rail {
+    position: fixed;
+    transform: translateX(-100%);
+    width: 200px;
+    align-items: stretch;
+    transition: transform var(--transition-normal);
+  }
+  body.sidebar-open .command-rail {
+    transform: translateX(0);
+  }
+  .command-telemetry-center {
+    display: none;
+  }
+  .command-kpi-strip {
+    grid-template-columns: 1fr;
+  }
+  .polar-svg-container {
+    height: 300px;
+  }
+  .polar-map-hud {
+    width: calc(100% - 20px);
+    right: 10px;
+    bottom: 10px;
+  }
+}
+
+@media (max-width: 640px) {
+  .vis-controls {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   11. ACCESSIBILITY — PREFERS REDUCED MOTION
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .station-pulse-outer,
+  .severity-indicator-pill.critical .severity-pulse-dot {
+    animation: none !important;
+  }
+}
+
+/* Staggered Entry Motion Helpers */
+.anim-stagger-1 { animation: polarSectionFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: 0.05s; }
+.anim-stagger-2 { animation: polarSectionFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: 0.12s; }
+.anim-stagger-3 { animation: polarSectionFadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) both; animation-delay: 0.20s; }
+
+@keyframes polarSectionFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Route Track & Corridor Styling Helpers */
+.expedition-route-track { margin-top: 4px; display: flex; flex-direction: column; gap: 3px; }
+.route-nodes-bar { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.68rem; color: var(--polar-text-muted); }
+.cargo-route-corridor { display: flex; align-items: center; gap: 6px; }
+.route-corridor-line { display: inline-flex; align-items: center; width: 20px; height: 2px; background-color: var(--polar-border-medium); }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .env-pill {
+    display: none !important;
+  }
+}
+
+/* ==========================================================================
+   12. MINIMAL SCIENTIFIC THEME — DASHBOARD & POLAR VISUALIZER STYLING
+   ========================================================================== */
+[data-theme="minimal-scientific"] .command-visualization-panel {
+  background-color: #ffffff;
+  border-color: #cbd5e1;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.05);
+}
+
+[data-theme="minimal-scientific"] .vis-header-bar {
+  border-bottom-color: #e2e8f0;
+}
+
+[data-theme="minimal-scientific"] .vis-title {
+  color: #0f172a;
+}
+
+[data-theme="minimal-scientific"] .vis-tag-accent {
+  color: #0284c7;
+}
+
+[data-theme="minimal-scientific"] .vis-coord-tag {
+  color: #64748b;
+}
+
+[data-theme="minimal-scientific"] .proj-pill {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #475569;
+}
+
+[data-theme="minimal-scientific"] .proj-pill.active {
+  background: #0284c7;
+  border-color: #0284c7;
+  color: #ffffff;
+}
+
+[data-theme="minimal-scientific"] .polar-grid-ring {
+  stroke: rgba(148, 163, 184, 0.35);
+}
+
+[data-theme="minimal-scientific"] .polar-axis-line {
+  stroke: rgba(148, 163, 184, 0.25);
+}
+
+[data-theme="minimal-scientific"] .polar-grid-label {
+  fill: #64748b;
+}
+
+[data-theme="minimal-scientific"] .polar-coastline {
+  fill: #e0f2fe;
+  stroke: #0284c7;
+  filter: none;
+}
+
+[data-theme="minimal-scientific"] .ice-shelf-feature {
+  fill: #f1f5f9;
+  stroke: #94a3b8;
+}
+
+[data-theme="minimal-scientific"] .station-label {
+  fill: #0f172a;
+}
+
+[data-theme="minimal-scientific"] .station-sublabel {
+  fill: #64748b;
+}
+
+[data-theme="minimal-scientific"] .station-node-center {
+  fill: #0284c7;
+  stroke: #ffffff;
+}
+
+[data-theme="minimal-scientific"] .station-pulse-outer {
+  stroke: #0284c7;
+}
+
+[data-theme="minimal-scientific"] .expedition-route-path {
+  stroke: #0284c7;
+}
+
+[data-theme="minimal-scientific"] .arctic-inset-frame {
+  fill: #f8fafc;
+  stroke: #cbd5e1;
+}
+
+[data-theme="minimal-scientific"] .arctic-inset-group line {
+  stroke: #e2e8f0;
+}
+
+[data-theme="minimal-scientific"] .hud-card {
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid #cbd5e1;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
+}
+
+[data-theme="minimal-scientific"] .hud-header {
+  border-bottom-color: #e2e8f0;
+}
+
+[data-theme="minimal-scientific"] .hud-title {
+  color: #0284c7;
+}
+
+[data-theme="minimal-scientific"] .hud-body {
+  color: #334155;
+}
+
+[data-theme="minimal-scientific"] .command-clock-box {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+[data-theme="minimal-scientific"] .clock-value {
+  color: #0f172a;
+}
+
+[data-theme="minimal-scientific"] .clock-label {
+  color: #64748b;
+}
+
+[data-theme="minimal-scientific"] .network-node {
+  color: #475569;
+}
+
+[data-theme="minimal-scientific"] .command-kpi-strip .kpi-card {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="minimal-scientific"] .command-card {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+

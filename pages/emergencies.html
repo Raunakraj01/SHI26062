@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emergencies — POLAR-OPS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script>(function(){try{const t=localStorage.getItem('polar_theme')||'hybrid';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+</head>
+<body>
+  <div class="app-shell" id="appLayout">
+    <!-- Top Header -->
+    <header class="app-header">
+      <div class="header-left">
+        <button class="sidebar-toggle-btn" id="sidebarToggle" aria-label="Toggle Sidebar Navigation" aria-expanded="false">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+        <a href="../index.html" class="brand-identity">
+          <div class="brand-logo-mark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15 9 22 12 15 15 12 22 9 15 2 12 9 9 12 2"></polygon>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </div>
+          <div class="brand-text-group">
+            <span class="brand-title">POLAR-OPS</span>
+            <span class="brand-sub">NCPOR MISSION CONTROL</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="header-center">
+        <div class="header-telemetry-pill">
+          <span class="telemetry-dot pulse" style="background-color: var(--status-red);"></span>
+          <span class="telemetry-label" style="color: var(--status-red);">SAR LINK ACTIVE:</span>
+          <span class="telemetry-value">MAITRI &bull; BHARATI EMERGENCY PROTOCOL</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+                <div class="theme-switcher-wrapper" role="group" aria-label="Theme Switcher">
+          <button type="button" class="theme-switch-btn active" data-theme-val="hybrid" id="themeBtnHybrid" title="Switch to Hybrid Command Center Theme" aria-pressed="true">
+            <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="18" rx="1" fill="currentColor"></rect>
+              <rect x="10" y="3" width="11" height="18" rx="1"></rect>
+            </svg>
+            <span class="theme-label">HYBRID</span>
+          </button>
+          <button type="button" class="theme-switch-btn" data-theme-val="minimal-scientific" id="themeBtnMinimal" title="Switch to Minimal Scientific Theme" aria-pressed="false">
+            <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="9"></circle>
+              <line x1="12" y1="3" x2="12" y2="7"></line>
+              <line x1="12" y1="17" x2="12" y2="21"></line>
+              <line x1="3" y1="12" x2="7" y2="12"></line>
+              <line x1="17" y1="12" x2="21" y2="12"></line>
+            </svg>
+            <span class="theme-label">MINIMAL</span>
+          </button>
+        </div>
+        <div class="header-notif-wrapper">
+          <button class="header-icon-btn" id="notifBellBtn" aria-label="Notifications" onclick="PolarUI.showToast('CRITICAL: Katabatic storm whiteout in progress at Maitri.', 'error', 'Emergency Alert')">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+            <span class="notif-badge" id="notifCountBadge">4</span>
+          </button>
+        </div>
+
+        <div class="operator-profile">
+          <div class="operator-avatar" style="border-color: var(--status-red);">OP</div>
+          <div class="operator-info">
+            <span class="operator-name">CMD. V. RATHORE</span>
+            <span class="operator-role">LOGISTICS COMMANDER</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="app-body">
+      <!-- Sidebar Navigation -->
+      <aside class="app-sidebar" id="appSidebar">
+        <div class="sidebar-section">
+          <div class="sidebar-section-title">MISSION CONTROL</div>
+          <nav class="sidebar-nav" aria-label="Main Navigation">
+            <a href="../index.html" class="sidebar-nav-item" data-nav="overview">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </svg>
+              <span>Platform Overview</span>
+            </a>
+            <a href="dashboard.html" class="sidebar-nav-item" data-nav="dashboard">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 13a9 9 0 1 0 18 0"></path>
+                <path d="M12 9v4l2.5 2.5"></path>
+              </svg>
+              <span>Dashboard</span>
+              <span class="sidebar-badge">Phase 3</span>
+            </a>
+            <a href="expeditions.html" class="sidebar-nav-item" data-nav="expeditions">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+              </svg>
+              <span>Expeditions</span>
+              <span class="sidebar-badge">Active</span>
+            </a>
+            <a href="cargo.html" class="sidebar-nav-item" data-nav="cargo">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="1" y="3" width="15" height="13"></rect>
+                <polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon>
+                <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                <circle cx="18.5" cy="18.5" r="2.5"></circle>
+              </svg>
+              <span>Cargo</span>
+              <span class="sidebar-badge">Active</span>
+            </a>
+            <a href="inventory.html" class="sidebar-nav-item" data-nav="inventory">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+              </svg>
+              <span>Inventory</span>
+              <span class="sidebar-badge">Active</span>
+            </a>
+            <a href="assets.html" class="sidebar-nav-item" data-nav="assets">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+              <span>Assets</span>
+              <span class="sidebar-badge">Active</span>
+            </a>
+            <a href="personnel.html" class="sidebar-nav-item" data-nav="personnel">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              <span>Personnel</span>
+              <span class="sidebar-badge">Active</span>
+            </a>
+            <a href="emergencies.html" class="sidebar-nav-item active" data-nav="emergencies">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+              </svg>
+              <span>Emergencies</span>
+              <span class="sidebar-badge" style="color: var(--status-red); border-color: var(--status-red-border);">Active</span>
+            </a>
+          </nav>
+        </div>
+
+        <div class="sidebar-footer">
+          <div class="system-status-indicator">
+            <span>STORAGE ENGINE</span>
+            <span style="color: var(--status-green); font-weight: 600;">LOCAL ONLINE</span>
+          </div>
+          <div class="system-status-indicator" style="margin-top: 4px;">
+            <span>PLATFORM BUILD</span>
+            <span>v4.0.0-integrated</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Mobile Backdrop -->
+      <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+      <!-- Main Content Container -->
+      <main class="app-main">
+        <div class="page-container">
+          <!-- Page Header Pattern -->
+          <div class="page-header">
+            <div class="page-title-group">
+              <div class="page-breadcrumbs">
+                <a href="../index.html">POLAR-OPS</a>
+                <span>/</span>
+                <span>INCIDENT ESCALATION</span>
+                <span>/</span>
+                <span>SEARCH &amp; RESCUE</span>
+              </div>
+              <h1 class="page-title">
+                Emergency &amp; SAR Operations
+                <span class="badge badge-emergency">
+                  <span class="badge-dot pulse"></span>
+                  Active Protocol
+                </span>
+              </h1>
+              <p class="page-subtitle">
+                Rapid Search &amp; Rescue dispatch, severe katabatic blizzard alerts, whiteout protocols, and life-safety response.
+              </p>
+            </div>
+            <div class="page-actions">
+              <button class="btn btn-secondary btn-sm" id="emergencyRefreshBtn" title="Sync emergency telemetry">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="23 4 23 10 17 10"></polyline>
+                  <polyline points="1 20 1 14 7 14"></polyline>
+                  <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                </svg>
+                <span>Sync</span>
+              </button>
+              <button class="btn btn-danger" id="openCreateEmergencyBtn" data-modal-open="createEmergencyModal">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                  <line x1="12" y1="9" x2="12" y2="13"></line>
+                  <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+                <span>Declare Emergency Incident</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Section 1: Summary Metrics Bar -->
+          <div class="module-kpi-grid" id="emergenciesMetricsBar">
+            <div class="module-kpi-card">
+              <div class="module-kpi-header">
+                <span>Active Incidents</span>
+                <span class="badge-dot" style="background-color: var(--status-red);"></span>
+              </div>
+              <div class="module-kpi-value" id="statActiveEmergencies" style="color: var(--status-red);">0</div>
+              <div class="module-kpi-sub">Unresolved operational emergencies</div>
+            </div>
+            <div class="module-kpi-card">
+              <div class="module-kpi-header">
+                <span>Critical Severity</span>
+                <span class="badge-dot" style="background-color: var(--status-red);"></span>
+              </div>
+              <div class="module-kpi-value" id="statCriticalEmergencies" style="color: var(--status-red);">0</div>
+              <div class="module-kpi-sub">Immediate life-safety hazard</div>
+            </div>
+            <div class="module-kpi-card">
+              <div class="module-kpi-header">
+                <span>Response In Progress</span>
+                <span class="badge-dot" style="background-color: var(--status-amber);"></span>
+              </div>
+              <div class="module-kpi-value" id="statInProgressEmergencies" style="color: var(--status-amber);">0</div>
+              <div class="module-kpi-sub">SAR field units deployed</div>
+            </div>
+            <div class="module-kpi-card">
+              <div class="module-kpi-header">
+                <span>Resolved Cases</span>
+                <span class="badge-dot" style="background-color: var(--status-green);"></span>
+              </div>
+              <div class="module-kpi-value" id="statResolvedEmergencies" style="color: var(--status-green);">0</div>
+              <div class="module-kpi-sub">Safely mitigated incidents</div>
+            </div>
+          </div>
+
+          <!-- Section 2: SAR Protocol Lifecycle Guide -->
+          <div class="polar-card" style="margin-bottom: var(--space-4); background: rgba(14,24,42,0.6); border: 1px solid var(--polar-border-subtle);">
+            <div class="polar-card-body" style="padding: 12px 16px;">
+              <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--polar-text-muted); margin-bottom: 8px;">Standard Antarctic Emergency Escalation Protocol</div>
+              <div class="emergency-lifecycle-track">
+                <div class="emergency-node active">
+                  <span class="emergency-node-num">1</span>
+                  <span>Reported</span>
+                </div>
+                <div class="emergency-node active">
+                  <span class="emergency-node-num">2</span>
+                  <span>Acknowledged</span>
+                </div>
+                <div class="emergency-node active">
+                  <span class="emergency-node-num">3</span>
+                  <span>Response In Progress</span>
+                </div>
+                <div class="emergency-node">
+                  <span class="emergency-node-num">4</span>
+                  <span>Resolved</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 3: Controls Bar (Search + Filters) -->
+          <div class="module-controls-bar">
+            <div class="controls-group-left">
+              <div class="search-input-wrapper">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="emergencySearchInput" class="form-control form-control-sm" placeholder="Search title, hazard type, location, ID, or response team...">
+              </div>
+              <select id="emergencySeverityFilter" class="form-select form-select-sm" style="width: 160px;">
+                <option value="ALL">All Severities</option>
+                <option value="CRITICAL">Critical</option>
+                <option value="HIGH">High</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="LOW">Low</option>
+              </select>
+            </div>
+            <div class="controls-group-right">
+              <select id="emergencyStatusFilter" class="form-select form-select-sm" style="width: 180px;">
+                <option value="ALL">All Protocol States</option>
+                <option value="Reported">Reported</option>
+                <option value="Acknowledged">Acknowledged</option>
+                <option value="Response In Progress">Response In Progress</option>
+                <option value="Resolved">Resolved</option>
+              </select>
+              <button class="btn btn-secondary btn-sm" id="emergencyResetFiltersBtn" title="Reset all filters">
+                <span>Reset</span>
+              </button>
+              <span class="results-count-chip" id="emergencyResultCount">Showing 0 incidents</span>
+            </div>
+          </div>
+
+          <!-- Section 4: Emergency Table Container -->
+          <div class="polar-table-container">
+            <table class="polar-table" id="emergenciesTable">
+              <thead>
+                <tr>
+                  <th style="width: 130px;">Incident ID</th>
+                  <th>Incident Title &amp; Hazard Type</th>
+                  <th>Station / Coordinates</th>
+                  <th style="width: 110px;">Severity</th>
+                  <th style="width: 170px;">Protocol Status</th>
+                  <th style="width: 170px;">Assigned Response Team</th>
+                  <th style="width: 190px; text-align: right;">Emergency Actions</th>
+                </tr>
+              </thead>
+              <tbody id="emergenciesTableBody">
+                <!-- Injected dynamically by js/emergency.js -->
+              </tbody>
+            </table>
+            <div id="emergenciesEmptyState" class="polar-table-empty" style="display: none;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+              </svg>
+              <div style="font-weight: 600; color: var(--polar-text-primary); margin-bottom: 4px;">No matching emergency incidents</div>
+              <div style="font-size: var(--text-xs);">All operational sectors reporting normal conditions.</div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Create Emergency Modal -->
+  <div class="polar-modal-overlay" id="createEmergencyModal" aria-hidden="true">
+    <div class="polar-modal">
+      <div class="polar-modal-header" style="border-bottom-color: rgba(239,68,68,0.3);">
+        <div class="polar-modal-title" style="color: var(--status-red);">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+            <line x1="12" y1="9" x2="12" y2="13"></line>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+          <span>Declare Operational Emergency</span>
+        </div>
+        <button class="polar-modal-close" data-modal-close aria-label="Close modal">&times;</button>
+      </div>
+      <form id="createEmergencyForm">
+        <div class="polar-modal-body">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="newEmergencyId">Incident Code <span style="color: var(--status-red);">&ast;</span></label>
+              <input type="text" id="newEmergencyId" class="form-control" required placeholder="EMG-2026-05" style="font-family: var(--font-mono);">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="newEmergencyTitle">Incident Title <span style="color: var(--status-red);">&ast;</span></label>
+              <input type="text" id="newEmergencyTitle" class="form-control" required placeholder="e.g. Crevasse Subsidence on Sledge Trail">
+            </div>
+          </div>
+
+          <div class="form-grid" style="margin-top: var(--space-3);">
+            <div class="form-group">
+              <label class="form-label" for="newEmergencyType">Hazard Type <span style="color: var(--status-red);">&ast;</span></label>
+              <input type="text" id="newEmergencyType" class="form-control" required placeholder="e.g. Severe Weather / Structural Failure">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="newEmergencySeverity">Severity Level <span style="color: var(--status-red);">&ast;</span></label>
+              <select id="newEmergencySeverity" class="form-select" required>
+                <option value="CRITICAL">CRITICAL — Immediate Life Safety Risk</option>
+                <option value="HIGH" selected>HIGH — Urgent Response Required</option>
+                <option value="MEDIUM">MEDIUM — Secondary Risk</option>
+                <option value="LOW">LOW — Advisory / Monitored</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-grid" style="margin-top: var(--space-3);">
+            <div class="form-group">
+              <label class="form-label" for="newEmergencyLocation">Station / Coordinates <span style="color: var(--status-red);">&ast;</span></label>
+              <input type="text" id="newEmergencyLocation" class="form-control" required placeholder="e.g. Maitri Station Power House">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="newEmergencyPersonnel">Affected Personnel Count</label>
+              <input type="number" id="newEmergencyPersonnel" class="form-control" min="0" value="0">
+            </div>
+          </div>
+
+          <div class="form-grid" style="margin-top: var(--space-3);">
+            <div class="form-group">
+              <label class="form-label" for="newEmergencyTeam">Assigned Response Team</label>
+              <input type="text" id="newEmergencyTeam" class="form-control" placeholder="e.g. Polar SAR Team & Field Engineers">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="newEmergencyEquipment">Required Equipment</label>
+              <input type="text" id="newEmergencyEquipment" class="form-control" placeholder="e.g. Snowcat PB-01, Emergency Power Cable">
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: var(--space-3);">
+            <label class="form-label" for="newEmergencyDesc">Incident Briefing &amp; Situation Details</label>
+            <textarea id="newEmergencyDesc" class="form-control" rows="3" placeholder="Provide situational context, environmental telemetry, and immediate mitigation actions..."></textarea>
+          </div>
+        </div>
+        <div class="polar-modal-footer">
+          <button type="button" class="btn btn-secondary" data-modal-close>Cancel</button>
+          <button type="submit" class="btn btn-danger">Broadcast Emergency</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Edit Emergency Modal -->
+  <div class="polar-modal-overlay" id="editEmergencyModal" aria-hidden="true">
+    <div class="polar-modal">
+      <div class="polar-modal-header">
+        <div class="polar-modal-title">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--polar-cyan-primary);">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+          </svg>
+          <span>Modify Incident Status &amp; Protocol</span>
+        </div>
+        <button class="polar-modal-close" data-modal-close aria-label="Close modal">&times;</button>
+      </div>
+      <form id="editEmergencyForm">
+        <input type="hidden" id="editEmergencyId">
+        <div class="polar-modal-body">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Incident Code</label>
+              <input type="text" id="editEmergencyIdDisplay" class="form-control" disabled style="font-family: var(--font-mono); opacity: 0.7;">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="editEmergencyTitle">Incident Title <span style="color: var(--status-red);">&ast;</span></label>
+              <input type="text" id="editEmergencyTitle" class="form-control" required>
+            </div>
+          </div>
+
+          <div class="form-grid" style="margin-top: var(--space-3);">
+            <div class="form-group">
+              <label class="form-label" for="editEmergencySeverity">Severity Level</label>
+              <select id="editEmergencySeverity" class="form-select">
+                <option value="CRITICAL">CRITICAL</option>
+                <option value="HIGH">HIGH</option>
+                <option value="MEDIUM">MEDIUM</option>
+                <option value="LOW">LOW</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="editEmergencyStatus">Protocol Status</label>
+              <select id="editEmergencyStatus" class="form-select">
+                <option value="Reported">Reported</option>
+                <option value="Acknowledged">Acknowledged</option>
+                <option value="Response In Progress">Response In Progress</option>
+                <option value="Resolved">Resolved</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-grid" style="margin-top: var(--space-3);">
+            <div class="form-group">
+              <label class="form-label" for="editEmergencyLocation">Location</label>
+              <input type="text" id="editEmergencyLocation" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="editEmergencyPersonnel">Affected Personnel</label>
+              <input type="number" id="editEmergencyPersonnel" class="form-control" min="0">
+            </div>
+          </div>
+
+          <div class="form-grid" style="margin-top: var(--space-3);">
+            <div class="form-group">
+              <label class="form-label" for="editEmergencyTeam">Response Team</label>
+              <input type="text" id="editEmergencyTeam" class="form-control">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="editEmergencyEquipment">Required Equipment</label>
+              <input type="text" id="editEmergencyEquipment" class="form-control">
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: var(--space-3);">
+            <label class="form-label" for="editEmergencyDesc">Situation Description</label>
+            <textarea id="editEmergencyDesc" class="form-control" rows="3"></textarea>
+          </div>
+        </div>
+        <div class="polar-modal-footer">
+          <button type="button" class="btn btn-secondary" data-modal-close>Cancel</button>
+          <button type="submit" class="btn btn-primary">Update Incident</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Emergency Dossier Modal -->
+  <div class="polar-modal-overlay" id="viewEmergencyModal" aria-hidden="true">
+    <div class="polar-modal">
+      <div class="polar-modal-header" style="border-bottom-color: rgba(239,68,68,0.3);">
+        <div class="polar-modal-title">
+          <span id="viewEmergencyId" style="font-family: var(--font-mono); color: var(--status-red); margin-right: 6px;">EMG-XX</span>
+          <span id="viewEmergencyTitle">Incident Dossier</span>
+        </div>
+        <button class="polar-modal-close" data-modal-close aria-label="Close modal">&times;</button>
+      </div>
+      <div class="polar-modal-body" id="viewEmergencyContent">
+        <!-- Injected dynamically -->
+      </div>
+      <div class="polar-modal-footer">
+        <button type="button" class="btn btn-secondary" data-modal-close>Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Core Scripts -->
+  <script src="../js/storage.js"></script>
+  <script src="../data/dummyData.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/emergency.js"></script>
+</body>
+</html>

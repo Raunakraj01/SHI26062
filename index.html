@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>POLAR-OPS — Mission Control Platform</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script>(function(){try{const t=localStorage.getItem('polar_theme')||'hybrid';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+</head>
+<body>
+  <div class="app-shell" id="appLayout">
+    <!-- Top Header -->
+    <header class="app-header">
+      <div class="header-left">
+        <button class="sidebar-toggle-btn" id="sidebarToggle" aria-label="Toggle Sidebar Navigation" aria-expanded="false">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+        <a href="index.html" class="brand-identity">
+          <div class="brand-logo-mark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15 9 22 12 15 15 12 22 9 15 2 12 9 9 12 2"></polygon>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </div>
+          <div class="brand-text-group">
+            <span class="brand-title">POLAR-OPS</span>
+            <span class="brand-sub">NCPOR MISSION CONTROL</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="header-center">
+        <div class="header-telemetry-pill">
+          <span class="telemetry-dot pulse"></span>
+          <span class="telemetry-label">ANTARCTICA LINK:</span>
+          <span class="telemetry-value">MAITRI &bull; BHARATI &bull; HIMADRI [NOMINAL]</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+                <div class="theme-switcher-wrapper" role="group" aria-label="Theme Switcher">
+          <button type="button" class="theme-switch-btn active" data-theme-val="hybrid" id="themeBtnHybrid" title="Switch to Hybrid Command Center Theme" aria-pressed="true">
+            <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="18" rx="1" fill="currentColor"></rect>
+              <rect x="10" y="3" width="11" height="18" rx="1"></rect>
+            </svg>
+            <span class="theme-label">HYBRID</span>
+          </button>
+          <button type="button" class="theme-switch-btn" data-theme-val="minimal-scientific" id="themeBtnMinimal" title="Switch to Minimal Scientific Theme" aria-pressed="false">
+            <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="9"></circle>
+              <line x1="12" y1="3" x2="12" y2="7"></line>
+              <line x1="12" y1="17" x2="12" y2="21"></line>
+              <line x1="3" y1="12" x2="7" y2="12"></line>
+              <line x1="17" y1="12" x2="21" y2="12"></line>
+            </svg>
+            <span class="theme-label">MINIMAL</span>
+          </button>
+        </div>
+        <div class="header-notif-wrapper">
+          <button class="header-icon-btn" id="notifBellBtn" aria-label="Notifications" onclick="PolarUI.showToast('Severe Weather Advisory: 84 knot katabatic winds detected near Maitri.', 'warning', 'Weather Alert')">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+            <span class="notif-badge" id="notifCountBadge">4</span>
+          </button>
+        </div>
+
+        <div class="operator-profile">
+          <div class="operator-avatar">OP</div>
+          <div class="operator-info">
+            <span class="operator-name">CMD. V. RATHORE</span>
+            <span class="operator-role">LOGISTICS COMMANDER</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="app-body">
+      <!-- Sidebar Navigation -->
+      <aside class="app-sidebar" id="appSidebar">
+        <div class="sidebar-section">
+          <div class="sidebar-section-title">MISSION CONTROL</div>
+          <nav class="sidebar-nav" aria-label="Main Navigation">
+            <a href="index.html" class="sidebar-nav-item active" data-nav="overview">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </svg>
+              <span>Platform Overview</span>
+            </a>
+            <a href="pages/dashboard.html" class="sidebar-nav-item" data-nav="dashboard">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 13a9 9 0 1 0 18 0"></path>
+                <path d="M12 9v4l2.5 2.5"></path>
+              </svg>
+              <span>Dashboard</span>
+              <span class="sidebar-badge">Phase 3</span>
+            </a>
+            <a href="pages/expeditions.html" class="sidebar-nav-item" data-nav="expeditions">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+              </svg>
+              <span>Expeditions</span>
+              <span class="sidebar-badge">Phase 4</span>
+            </a>
+            <a href="pages/cargo.html" class="sidebar-nav-item" data-nav="cargo">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="1" y="3" width="15" height="13"></rect>
+                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                <circle cx="18.5" cy="18.5" r="2.5"></circle>
+              </svg>
+              <span>Cargo Tracking</span>
+              <span class="sidebar-badge">Phase 5</span>
+            </a>
+            <a href="pages/inventory.html" class="sidebar-nav-item" data-nav="inventory">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+              </svg>
+              <span>Inventory</span>
+              <span class="sidebar-badge">Phase 6</span>
+            </a>
+            <a href="pages/assets.html" class="sidebar-nav-item" data-nav="assets">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+              </svg>
+              <span>Assets</span>
+              <span class="sidebar-badge">Phase 7</span>
+            </a>
+            <a href="pages/personnel.html" class="sidebar-nav-item" data-nav="personnel">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              <span>Personnel</span>
+              <span class="sidebar-badge">Phase 8</span>
+            </a>
+            <a href="pages/emergencies.html" class="sidebar-nav-item" data-nav="emergencies">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+              </svg>
+              <span>Emergencies</span>
+              <span class="sidebar-badge" style="color: var(--status-red); border-color: var(--status-red-border);">Phase 9</span>
+            </a>
+          </nav>
+        </div>
+
+        <div class="sidebar-footer">
+          <div class="system-status-indicator">
+            <span>STORAGE ENGINE</span>
+            <span style="color: var(--status-green); font-weight: 600;">LOCAL ONLINE</span>
+          </div>
+          <div class="system-status-indicator" style="margin-top: 4px;">
+            <span>PLATFORM BUILD</span>
+            <span>v2.0.0-phase2</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Mobile Backdrop -->
+      <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+      <!-- Main Content Container -->
+      <main class="app-main">
+        <div class="page-container">
+          <!-- Page Header Pattern -->
+          <div class="page-header">
+            <div class="page-title-group">
+              <div class="page-breadcrumbs">
+                <a href="index.html">POLAR-OPS</a>
+                <span>/</span>
+                <span>GLOBAL UI SHELL</span>
+              </div>
+              <h1 class="page-title">
+                Platform Shell &amp; Design System
+                <span class="badge badge-operational">
+                  <span class="badge-dot"></span>
+                  Phase 2 Verified
+                </span>
+              </h1>
+              <p class="page-subtitle">
+                Standardized enterprise UI foundation for Indian Antarctic &amp; Arctic research operations.
+              </p>
+            </div>
+            <div class="page-actions">
+              <button class="btn btn-secondary" onclick="PolarUI.showToast('Platform telemetry diagnostics completed.', 'info', 'System Check')">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                </svg>
+                <span>Run Diagnostic</span>
+              </button>
+              <button class="btn btn-primary" data-modal-open="demoModal">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                <span>Test Modal Component</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Section 1: UI Foundation Summary Cards -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--space-4);">
+            <div class="polar-card polar-card-accent">
+              <div class="polar-card-header">
+                <div class="polar-card-title">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--polar-cyan-primary);">
+                    <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                    <polyline points="2 17 12 22 22 17"></polyline>
+                    <polyline points="2 12 12 17 22 12"></polyline>
+                  </svg>
+                  <span>Unified Shell Layout</span>
+                </div>
+                <span class="badge badge-completed">Ready</span>
+              </div>
+              <div class="polar-card-body">
+                <p style="font-size: var(--text-sm); color: var(--polar-text-secondary);">
+                  Top header with telemetry status, 260px responsive sidebar, mobile off-canvas drawer with touch backdrop, and accessible keyboard navigation.
+                </p>
+              </div>
+            </div>
+
+            <div class="polar-card">
+              <div class="polar-card-header">
+                <div class="polar-card-title">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--status-green);">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                  <span>Design Token System</span>
+                </div>
+                <span class="badge badge-operational">Active</span>
+              </div>
+              <div class="polar-card-body">
+                <p style="font-size: var(--text-sm); color: var(--polar-text-secondary);">
+                  Deep Antarctic navy palette, standardized 4px spacing scale, semantic telemetry colors, Inter typography, and JetBrains Mono metadata formatting.
+                </p>
+              </div>
+            </div>
+
+            <div class="polar-card polar-card-critical">
+              <div class="polar-card-header">
+                <div class="polar-card-title">
+                  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--status-red);">
+                    <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                  </svg>
+                  <span>Interactive Patterns</span>
+                </div>
+                <span class="badge badge-acknowledged">Functional</span>
+              </div>
+              <div class="polar-card-body">
+                <p style="font-size: var(--text-sm); color: var(--polar-text-secondary);">
+                  Accessible modal dialogs with backdrop blur, customizable toast notification queue, responsive table overflow, and validated form controls.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 2: Component System Demonstrations -->
+          <div class="polar-card">
+            <div class="polar-card-header">
+              <div class="polar-card-title">Button System &amp; Interactive Toast Triggers</div>
+              <span class="badge badge-neutral">Reusable Tokens</span>
+            </div>
+            <div class="polar-card-body" style="display: flex; flex-direction: column; gap: var(--space-4);">
+              <div style="display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center;">
+                <button class="btn btn-primary" onclick="PolarUI.showToast('Primary mission operation confirmed.', 'info', 'Mission Command')">
+                  Primary Action
+                </button>
+                <button class="btn btn-secondary" onclick="PolarUI.showToast('Secondary telemetry channel refreshed.', 'info', 'Telemetry')">
+                  Secondary Action
+                </button>
+                <button class="btn btn-success" onclick="PolarUI.showToast('Expedition supply manifest verified.', 'success', 'Verification')">
+                  Success State
+                </button>
+                <button class="btn btn-warning" onclick="PolarUI.showToast('Fuel reserve below 30-day threshold.', 'warning', 'Depletion Alert')">
+                  Warning State
+                </button>
+                <button class="btn btn-danger" onclick="PolarUI.showToast('Generator 2 sub-zero thermal trip.', 'error', 'Incident Escalated')">
+                  Critical / Danger
+                </button>
+                <button class="btn btn-ghost" onclick="PolarUI.showToast('Ghost utility action triggered.', 'info')">
+                  Ghost Action
+                </button>
+                <button class="btn btn-primary btn-sm">Small Button</button>
+                <button class="btn btn-secondary btn-lg">Large Button</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 3: Status Badge System -->
+          <div class="polar-card">
+            <div class="polar-card-header">
+              <div class="polar-card-title">Telemetry &amp; Status Badge Matrix</div>
+              <span class="badge badge-in-transit">Standardized Badges</span>
+            </div>
+            <div class="polar-card-body">
+              <div style="display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center;">
+                <span class="badge badge-operational"><span class="badge-dot"></span>Operational</span>
+                <span class="badge-active"><span class="badge-dot"></span>Active Mission</span>
+                <span class="badge-completed"><span class="badge-dot"></span>Completed</span>
+                <span class="badge-in-transit"><span class="badge-dot"></span>In Transit</span>
+                <span class="badge-preparing"><span class="badge-dot"></span>Preparing</span>
+                <span class="badge-delayed"><span class="badge-dot"></span>Delayed</span>
+                <span class="badge-low-stock"><span class="badge-dot"></span>Low Stock</span>
+                <span class="badge-standby"><span class="badge-dot"></span>Standby</span>
+                <span class="badge-maintenance"><span class="badge-dot"></span>Maintenance</span>
+                <span class="badge-critical"><span class="badge-dot"></span>Critical Hazard</span>
+                <span class="badge-emergency"><span class="badge-dot"></span>SAR Emergency</span>
+                <span class="badge-planned"><span class="badge-dot"></span>Planned</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 4: Table Foundation Prototype -->
+          <div class="polar-card">
+            <div class="polar-card-header">
+              <div class="polar-card-title">Table Foundation (Responsive Data Matrix)</div>
+              <span class="badge badge-neutral">Horizontal Overflow Supported</span>
+            </div>
+            <div class="polar-table-container">
+              <table class="polar-table">
+                <thead>
+                  <tr>
+                    <th>Entity Code</th>
+                    <th>Station Node</th>
+                    <th>Category</th>
+                    <th>Status Badge</th>
+                    <th>Telemetry Metric</th>
+                    <th style="text-align: right;">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="cell-mono">MAI-GEN-01</td>
+                    <td>Maitri Power Plant</td>
+                    <td>Power Generation</td>
+                    <td><span class="badge badge-operational"><span class="badge-dot"></span>Operational</span></td>
+                    <td class="cell-mono">248.5 kW / 92% Load</td>
+                    <td style="text-align: right;">
+                      <button class="btn btn-secondary btn-sm" onclick="PolarUI.showToast('Telemetry diagnostics nominal for MAI-GEN-01.', 'success', 'Generator Check')">Inspect</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="cell-mono">BHR-SAT-02</td>
+                    <td>Bharati Comms Dome</td>
+                    <td>C-Band SATCOM</td>
+                    <td><span class="badge badge-delayed"><span class="badge-dot"></span>Delayed</span></td>
+                    <td class="cell-mono">Oscillator Drift (-14 dB)</td>
+                    <td style="text-align: right;">
+                      <button class="btn btn-secondary btn-sm" onclick="PolarUI.showToast('Secondary BGAN uplink auto-engaged.', 'warning', 'SATCOM Failover')">Re-align</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="cell-mono">SAR-EXP-42</td>
+                    <td>Schirmacher Oasis</td>
+                    <td>Field Traverse Unit</td>
+                    <td><span class="badge badge-critical"><span class="badge-dot"></span>Critical</span></td>
+                    <td class="cell-mono">Category-4 Katabatic Storm</td>
+                    <td style="text-align: right;">
+                      <button class="btn btn-danger btn-sm" data-modal-open="demoModal">SAR Dispatch</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Section 5: Form Foundation Grid -->
+          <div class="polar-card">
+            <div class="polar-card-header">
+              <div class="polar-card-title">Form Control Foundation</div>
+              <span class="badge badge-neutral">Standard Field System</span>
+            </div>
+            <div class="polar-card-body">
+              <form class="form-grid" onsubmit="event.preventDefault(); PolarUI.showToast('Sample form validated and submitted.', 'success');">
+                <div class="form-group">
+                  <label class="form-label" for="sampleExpName">Expedition Codename <span class="required">*</span></label>
+                  <input type="text" id="sampleExpName" class="form-control" placeholder="e.g., Operation Deep Drill" value="43rd Indian Antarctic Expedition">
+                  <span class="form-help-text">Unique mission identification handle</span>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="sampleStationSelect">Target Station Node <span class="required">*</span></label>
+                  <select id="sampleStationSelect" class="form-select">
+                    <option value="bharati">Bharati Station, Larsemann Hills</option>
+                    <option value="maitri">Maitri Station, Schirmacher Oasis</option>
+                    <option value="himadri">Himadri Station, Ny-Ålesund, Arctic</option>
+                    <option value="amery">Amery Ice Shelf Field Camp</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="sampleDate">Traverse Departure Date</label>
+                  <input type="date" id="sampleDate" class="form-control" value="2026-11-15">
+                </div>
+
+                <div class="form-group" style="grid-column: 1 / -1;">
+                  <label class="form-label" for="sampleNotes">Operational Directive / Objective</label>
+                  <textarea id="sampleNotes" class="form-textarea" placeholder="Enter polar mission description or logistics requirements...">Deep ice sheet core drill assembly, bedrock sampling at Lat 69°24S, Long 76°11E.</textarea>
+                </div>
+
+                <div style="grid-column: 1 / -1; display: flex; gap: var(--space-3); justify-content: flex-end;">
+                  <button type="reset" class="btn btn-secondary">Reset Fields</button>
+                  <button type="submit" class="btn btn-primary">Submit Test Manifest</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Reusable Modal Dialog Foundation Component -->
+  <div class="polar-modal-overlay" id="demoModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="polar-modal">
+      <div class="polar-modal-header">
+        <div class="polar-modal-title">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--polar-cyan-primary);">
+            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+            <polyline points="2 17 12 22 22 17"></polyline>
+            <polyline points="2 12 12 17 22 12"></polyline>
+          </svg>
+          <span>Polar Action Confirmation</span>
+        </div>
+        <button class="polar-modal-close" data-modal-close aria-label="Close dialog">&times;</button>
+      </div>
+      <div class="polar-modal-body">
+        <p style="font-size: var(--text-sm); color: var(--polar-text-secondary); margin-bottom: var(--space-4);">
+          This is the reusable modal dialog foundation. It provides accessible keyboard focus handling, backdrop blur, background scroll locking, and consistent layout for future CRUD operations.
+        </p>
+        <div class="form-group">
+          <label class="form-label" for="modalSampleField">Authorized Operator Call-sign</label>
+          <input type="text" id="modalSampleField" class="form-control" value="POLAR-LEAD-01">
+          <span class="form-help-text">Confirmed via station satellite uplink</span>
+        </div>
+      </div>
+      <div class="polar-modal-footer">
+        <button class="btn btn-secondary" data-modal-close>Cancel</button>
+        <button class="btn btn-primary" onclick="PolarUI.closeModal('demoModal'); PolarUI.showToast('Modal action executed successfully.', 'success');">Confirm Action</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts in dependency order -->
+  <script src="js/storage.js"></script>
+  <script src="data/dummyData.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

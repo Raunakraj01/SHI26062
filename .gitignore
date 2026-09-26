@@ -1,0 +1,20 @@
+# POLAR-OPS Git Ignore
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Editor & IDE Configs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node / Scratch Logs
+node_modules/
+*.log
+npm-debug.log*
+
+# Scratch & Temporary Run Artifacts
+scratch/
+.system_generated/

@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assets &amp; Fleet — POLAR-OPS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script>(function(){try{const t=localStorage.getItem('polar_theme')||'hybrid';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+</head>
+<body>
+  <div class="app-shell" id="appLayout">
+    <!-- Top Header -->
+    <header class="app-header">
+      <div class="header-left">
+        <button class="sidebar-toggle-btn" id="sidebarToggle" aria-label="Toggle Sidebar Navigation" aria-expanded="false">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+        <a href="../index.html" class="brand-identity">
+          <div class="brand-logo-mark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15 9 22 12 15 15 12 22 9 15 2 12 9 9 12 2"></polygon>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </div>
+          <div class="brand-text-group">
+            <span class="brand-title">POLAR-OPS</span>
+            <span class="brand-sub">NCPOR MISSION CONTROL</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="header-center">
+        <div class="header-telemetry-pill">
+          <span class="telemetry-dot pulse"></span>
+          <span class="telemetry-label">ANTARCTICA LINK:</span>
+          <span class="telemetry-value">MAITRI &bull; BHARATI &bull; HIMADRI [NOMINAL]</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+                <div class="theme-switcher-wrapper" role="group" aria-label="Theme Switcher">
+          <button type="button" class="theme-switch-btn active" data-theme-val="hybrid" id="themeBtnHybrid" title="Switch to Hybrid Command Center Theme" aria-pressed="true">
+            <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="18" rx="1" fill="currentColor"></rect>
+              <rect x="10" y="3" width="11" height="18" rx="1"></rect>
+            </svg>
+            <span class="theme-label">HYBRID</span>
+          </button>
+          <button type="button" class="theme-switch-btn" data-theme-val="minimal-scientific" id="themeBtnMinimal" title="Switch to Minimal Scientific Theme" aria-pressed="false">
+            <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="9"></circle>
+              <line x1="12" y1="3" x2="12" y2="7"></line>
+              <line x1="12" y1="17" x2="12" y2="21"></line>
+              <line x1="3" y1="12" x2="7" y2="12"></line>
+              <line x1="17" y1="12" x2="21" y2="12"></line>
+            </svg>
+            <span class="theme-label">MINIMAL</span>
+          </button>
+        </div>
+        <div class="header-notif-wrapper">
+          <button class="header-icon-btn" id="notifBellBtn" aria-label="Notifications" onclick="PolarUI.showToast('4 active telemetry notifications logged.', 'info')">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+            <span class="notif-badge" id="notifCountBadge">4</span>
+          </button>
+        </div>
+
+        <div class="operator-profile">
+          <div class="operator-avatar">OP</div>
+          <div class="operator-info">
+            <span class="operator-name">CMD. V. RATHORE</span>
+            <span class="operator-role">LOGISTICS COMMANDER</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="app-body">
+      <!-- Sidebar Navigation -->
+      <aside class="app-sidebar" id="appSidebar">
+        <div class="sidebar-section">
+          <div class="sidebar-section-title">MISSION CONTROL</div>
+          <nav class="sidebar-nav" aria-label="Main Navigation">
+            <a href="../index.html" class="sidebar-nav-item" data-nav="overview">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </svg>
+              <span>Platform Overview</span>
+            </a>
+            <a href="dashboard.html" class="sidebar-nav-item" data-nav="dashboard">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 13a9 9 0 1 0 18 0"></path>
+                <path d="M12 9v4l2.5 2.5"></path>
+              </svg>
+              <span>Dashboard</span>
+              <span class="sidebar-badge">Phase 3</span>
+            </a>
+            <a href="expeditions.html" class="sidebar-nav-item" data-nav="expeditions">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+              </svg>
+              <span>Expeditions</span>
+              <span class="sidebar-badge">Active</span>
+            </a>
+            <a href="cargo.html" class="sidebar-nav-item" data-nav="cargo">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="1" y="3" width="15" height="13"></rect>
+                <polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon>
+                <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                <circle cx="18.5" cy="18.5" r="2.5"></circle>
+              </svg>
+              <span>Cargo</span>
+              <span class="sidebar-badge">Active</span>
+            </a>
+            <a href="inventory.html" class="sidebar-nav-item" data-nav="inventory">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+              </svg>
+              <span>Inventory</span>
+              <span class="sidebar-badge">Active</span>
+            </a>
+            <a href="assets.html" class="sidebar-nav-item active" data-nav="assets">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+              <span>Assets</span>
+              <span class="sidebar-badge">Active</span>
+            </a>
+            <a href="personnel.html" class="sidebar-nav-item" data-nav="personnel">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              <span>Personnel</span>
+              <span class="sidebar-badge">Active</span>
+            </a>
+            <a href="emergencies.html" class="sidebar-nav-item" data-nav="emergencies">
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+              </svg>
+              <span>Emergencies</span>
+              <span class="sidebar-badge" style="color: var(--status-red); border-color: var(--status-red-border);">Active</span>
+            </a>
+          </nav>
+        </div>
+
+        <div class="sidebar-footer">
+          <div class="system-status-indicator">
+            <span>STORAGE ENGINE</span>
+            <span style="color: var(--status-green); font-weight: 600;">LOCAL ONLINE</span>
+          </div>
+          <div class="system-status-indicator" style="margin-top: 4px;">
+            <span>PLATFORM BUILD</span>
+            <span>v4.0.0-integrated</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Mobile Backdrop -->
+      <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+      <!-- Main Content Container -->
+      <main class="app-main">
+        <div class="page-container">
+          <!-- Page Header Pattern -->
+          <div class="page-header">
+            <div class="page-title-group">
+              <div class="page-breadcrumbs">
+                <a href="../index.html">POLAR-OPS</a>
+                <span>/</span>
+                <span>INFRASTRUCTURE</span>
+                <span>/</span>
+                <span>ASSETS &amp; FLEET</span>
+              </div>
+              <h1 class="page-title">
+                Mission Assets &amp; Polar Machinery
+                <span class="badge badge-operational">
+                  <span class="badge-dot"></span>
+                  Fleet Telemetry
+                </span>
+              </h1>
+              <p class="page-subtitle">
+                Track PistenBully snowcats, heavy freight sledges, diesel power generators, satellite domes, and marine craft.
+              </p>
+            </div>
+            <div class="page-actions">
+              <button class="btn btn-secondary btn-sm" id="assetsRefreshBtn" title="Sync local storage and re-render fleet">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="23 4 23 10 17 10"></polyline>
+                  <polyline points="1 20 1 14 7 14"></polyline>
+                  <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                </svg>
+                <span>Sync</span>
+              </button>
+              <button class="btn btn-primary" id="openCreateAssetBtn" data-modal-open="createAssetModal">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                <span>Add Mission Asset</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Section 1: Summary Metrics Bar -->
+          <div class="module-kpi-grid" id="assetsMetricsBar">
+            <div class="module-kpi-card">
+              <div class="module-kpi-header">
+                <span>Total Fleet Units</span>
+                <span class="badge-dot" style="background-color: var(--polar-cyan-primary);"></span>
+              </div>
+              <div class="module-kpi-value" id="statTotalAssets">0</div>
+              <div class="module-kpi-sub">Registered operational assets</div>
+            </div>
+            <div class="module-kpi-card">
+              <div class="module-kpi-header">
+                <span>Operational</span>
+                <span class="badge-dot" style="background-color: var(--status-green);"></span>
+              </div>
+              <div class="module-kpi-value" id="statOperationalAssets" style="color: var(--status-green);">0</div>
+              <div class="module-kpi-sub">Ready for active field use</div>
+            </div>
+            <div class="module-kpi-card">
+              <div class="module-kpi-header">
+                <span>Standby / Reserve</span>
+                <span class="badge-dot" style="background-color: var(--status-cyan);"></span>
+              </div>
+              <div class="module-kpi-value" id="statStandbyAssets" style="color: var(--status-cyan);">0</div>
+              <div class="module-kpi-sub">Staged in hangar/bay</div>
+            </div>
+            <div class="module-kpi-card">
+              <div class="module-kpi-header">
+                <span>Maintenance / Critical</span>
+                <span class="badge-dot" style="background-color: var(--status-amber);"></span>
+              </div>
+              <div class="module-kpi-value" id="statMaintenanceAssets" style="color: var(--status-amber);">0</div>
+              <div class="module-kpi-sub">Inspection required</div>
+            </div>
+          </div>
+
+          <!-- Section 2: Controls Bar (Search + Filters) -->
+          <div class="module-controls-bar">
+            <div class="controls-group-left">
+              <div class="search-input-wrapper">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="assetSearchInput" class="form-control form-control-sm" placeholder="Search asset name, asset ID, category, or location...">
+              </div>
+              <select id="assetCategoryFilter" class="form-select form-select-sm" style="width: 170px;">
+                <option value="ALL">All Categories</option>
+                <option value="Heavy Vehicles">Heavy Vehicles</option>
+                <option value="Power Generation">Power Generation</option>
+                <option value="Communication">Communication</option>
+                <option value="Scientific Equipment">Scientific Equipment</option>
+                <option value="Maritime Operations">Maritime Operations</option>
+              </select>
+            </div>
+            <div class="controls-group-right">
+              <select id="assetStationFilter" class="form-select form-select-sm" style="width: 160px;">
+                <option value="ALL">All Stations</option>
+                <option value="Maitri">Maitri Station</option>
+                <option value="Bharati">Bharati Station</option>
+                <option value="Larsemann">Larsemann Hills</option>
+              </select>
+              <select id="assetStatusFilter" class="form-select form-select-sm" style="width: 150px;">
+                <option value="ALL">All Statuses</option>
+                <option value="Operational">Operational</option>
+                <option value="Standby">Standby</option>
+                <option value="Maintenance">Maintenance</option>
+                <option value="Critical">Critical</option>
+              </select>
+              <button class="btn btn-secondary btn-sm" id="assetResetFiltersBtn" title="Reset all filters">
+                <span>Reset</span>
+              </button>
+              <span class="results-count-chip" id="assetResultCount">Showing 0 assets</span>
+            </div>
+          </div>
+
+          <!-- Section 3: Asset Table Container -->
+          <div class="polar-table-container">
+            <table class="polar-table" id="assetsTable">
+              <thead>
+                <tr>
+                  <th style="width: 120px;">Asset ID</th>
+                  <th>Asset Name &amp; Model</th>
+                  <th>Category</th>
+                  <th>Station Location</th>
+                  <th>Condition</th>
+                  <th style="width: 150px;">Maintenance Due</th>
+                  <th style="width: 130px;">Operational Status</th>
+                  <th style="width: 160px; text-align: right;">Fleet Actions</th>
+                </tr>
+              </thead>
+              <tbody id="assetsTableBody">
+                <!-- Injected dynamically by js/assets.js -->
+              </tbody>
+            </table>
+            <div id="assetsEmptyState" class="polar-table-empty" style="display: none;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+              <div style="font-weight: 600; color: var(--polar-text-primary); margin-bottom: 4px;">No matching assets found</div>
+              <div style="font-size: var(--text-xs);">Try selecting another category or clear search filters.</div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Create Asset Modal -->
+  <div class="polar-modal-overlay" id="createAssetModal" aria-hidden="true">
+    <div class="polar-modal">
+      <div class="polar-modal-header">
+        <div class="polar-modal-title">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--polar-cyan-primary);">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+          </svg>
+          <span>Register Mission Asset</span>
+        </div>
+        <button class="polar-modal-close" data-modal-close aria-label="Close modal">&times;</button>
+      </div>
+      <form id="createAssetForm">
+        <div class="polar-modal-body">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label" for="newAssetId">Asset ID / Code <span style="color: var(--status-red);">&ast;</span></label>
+              <input type="text" id="newAssetId" class="form-control" required placeholder="AST-3008" style="font-family: var(--font-mono);">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="newAssetName">Asset Model &amp; Description <span style="color: var(--status-red);">&ast;</span></label>
+              <input type="text" id="newAssetName" class="form-control" required placeholder="e.g. Hägglunds BV206 All-Terrain Tracked Carrier">
+            </div>
+          </div>
+
+          <div class="form-grid" style="margin-top: var(--space-3);">
+            <div class="form-group">
+              <label class="form-label" for="newAssetCategory">Category <span style="color: var(--status-red);">&ast;</span></label>
+              <select id="newAssetCategory" class="form-select" required>
+                <option value="Heavy Vehicles">Heavy Vehicles</option>
+                <option value="Power Generation">Power Generation</option>
+                <option value="Communication">Communication</option>
+                <option value="Scientific Equipment">Scientific Equipment</option>
+                <option value="Maritime Operations">Maritime Operations</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="newAssetCondition">Physical Condition</label>
+              <select id="newAssetCondition" class="form-select">
+                <option value="Excellent">Excellent</option>
+                <option value="Good" selected>Good</option>
+                <option value="Fair">Fair</option>
+                <option value="Degraded">Degraded</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: var(--space-3);">
+            <label class="form-label" for="newAssetLocation">Station / Storage Bay <span style="color: var(--status-red);">&ast;</span></label>
+            <input type="text" id="newAssetLocation" class="form-control" required placeholder="e.g. Maitri Station Vehicle Bay 1">
+          </div>
+
+          <div class="form-grid" style="margin-top: var(--space-3);">
+            <div class="form-group">
+              <label class="form-label" for="newAssetStatus">Operational Status</label>
+              <select id="newAssetStatus" class="form-select">
+                <option value="Operational" selected>Operational</option>
+                <option value="Standby">Standby</option>
+                <option value="Maintenance">Maintenance</option>
+                <option value="Critical">Critical</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="newAssetNextMaint">Next Scheduled Maintenance</label>
+              <input type="date" id="newAssetNextMaint" class="form-control">
+            </div>
+          </div>
+        </div>
+        <div class="polar-modal-footer">
+          <button type="button" class="btn btn-secondary" data-modal-close>Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Asset</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Edit Asset Modal -->
+  <div class="polar-modal-overlay" id="editAssetModal" aria-hidden="true">
+    <div class="polar-modal">
+      <div class="polar-modal-header">
+        <div class="polar-modal-title">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--polar-cyan-primary);">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+          </svg>
+          <span>Modify Asset Parameters</span>
+        </div>
+        <button class="polar-modal-close" data-modal-close aria-label="Close modal">&times;</button>
+      </div>
+      <form id="editAssetForm">
+        <input type="hidden" id="editAssetId">
+        <div class="polar-modal-body">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Asset ID</label>
+              <input type="text" id="editAssetIdDisplay" class="form-control" disabled style="font-family: var(--font-mono); opacity: 0.7;">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="editAssetName">Asset Name <span style="color: var(--status-red);">&ast;</span></label>
+              <input type="text" id="editAssetName" class="form-control" required>
+            </div>
+          </div>
+
+          <div class="form-grid" style="margin-top: var(--space-3);">
+            <div class="form-group">
+              <label class="form-label" for="editAssetCategory">Category</label>
+              <select id="editAssetCategory" class="form-select" required>
+                <option value="Heavy Vehicles">Heavy Vehicles</option>
+                <option value="Power Generation">Power Generation</option>
+                <option value="Communication">Communication</option>
+                <option value="Scientific Equipment">Scientific Equipment</option>
+                <option value="Maritime Operations">Maritime Operations</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="editAssetCondition">Condition</label>
+              <select id="editAssetCondition" class="form-select">
+                <option value="Excellent">Excellent</option>
+                <option value="Good">Good</option>
+                <option value="Fair">Fair</option>
+                <option value="Degraded">Degraded</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: var(--space-3);">
+            <label class="form-label" for="editAssetLocation">Station / Storage Location</label>
+            <input type="text" id="editAssetLocation" class="form-control" required>
+          </div>
+
+          <div class="form-grid" style="margin-top: var(--space-3);">
+            <div class="form-group">
+              <label class="form-label" for="editAssetStatus">Operational Status</label>
+              <select id="editAssetStatus" class="form-select">
+                <option value="Operational">Operational</option>
+                <option value="Standby">Standby</option>
+                <option value="Maintenance">Maintenance</option>
+                <option value="Critical">Critical</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="editAssetNextMaint">Next Maintenance Date</label>
+              <input type="date" id="editAssetNextMaint" class="form-control">
+            </div>
+          </div>
+        </div>
+        <div class="polar-modal-footer">
+          <button type="button" class="btn btn-secondary" data-modal-close>Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Asset Detail Dossier Modal -->
+  <div class="polar-modal-overlay" id="viewAssetModal" aria-hidden="true">
+    <div class="polar-modal">
+      <div class="polar-modal-header">
+        <div class="polar-modal-title">
+          <span id="viewAssetId" style="font-family: var(--font-mono); color: var(--polar-cyan-primary); margin-right: 6px;">AST-XX</span>
+          <span id="viewAssetTitle">Asset Dossier</span>
+        </div>
+        <button class="polar-modal-close" data-modal-close aria-label="Close modal">&times;</button>
+      </div>
+      <div class="polar-modal-body" id="viewAssetContent">
+        <!-- Injected dynamically -->
+      </div>
+      <div class="polar-modal-footer">
+        <button type="button" class="btn btn-secondary" data-modal-close>Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Core Scripts -->
+  <script src="../js/storage.js"></script>
+  <script src="../data/dummyData.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/assets.js"></script>
+</body>
+</html>

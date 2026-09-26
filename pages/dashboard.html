@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Command Dashboard — POLAR-OPS</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <script>(function(){try{const t=localStorage.getItem('polar_theme')||'hybrid';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+</head>
+<body class="command-center-mode">
+  <div class="app-shell" id="appLayout">
+    <!-- Top Command Center Header Deck -->
+    <header class="app-header">
+      <div class="header-left">
+        <button class="sidebar-toggle-btn" id="sidebarToggle" aria-label="Toggle Navigation Rail" aria-expanded="false">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+        <a href="../index.html" class="brand-identity">
+          <div class="brand-logo-mark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15 9 22 12 15 15 12 22 9 15 2 12 9 9 12 2"></polygon>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </div>
+          <div class="brand-text-group">
+            <span class="brand-title">POLAR-OPS</span>
+            <span class="brand-sub">ANTARCTIC EXPEDITION COMMAND CENTER</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Center: Tactical Network Status & Live Clock -->
+      <div class="header-center command-telemetry-center">
+        <div class="command-clock-box">
+          <span class="clock-label">MISSION TIME (UTC):</span>
+          <span class="clock-value" id="commandUtcClock">2026.09.27 // 20:45:00 UTC</span>
+        </div>
+        <div class="command-network-status">
+          <span class="network-node active" title="Maitri Station 70°45'S 11°44'E">
+            <span class="status-pip"></span> MAITRI: NOMINAL
+          </span>
+          <span class="network-sep">&bull;</span>
+          <span class="network-node active" title="Bharati Station 69°24'S 76°11'E">
+            <span class="status-pip"></span> BHARATI: NOMINAL
+          </span>
+          <span class="network-sep">&bull;</span>
+          <span class="network-node active" title="Himadri Station 78°55'N 11°56'E">
+            <span class="status-pip"></span> HIMADRI: NOMINAL
+          </span>
+        </div>
+      </div>
+
+      <!-- Right: Operational Actions & Environment Indicator -->
+      <div class="header-right command-header-right">
+        <div class="env-pill">
+          <span class="env-dot"></span>
+          <span>DEMO SIMULATION &bull; LOCAL STORAGE</span>
+        </div>
+
+        <div class="theme-switcher-wrapper" role="group" aria-label="Theme Switcher">
+          <button type="button" class="theme-switch-btn active" data-theme-val="hybrid" id="themeBtnHybrid" title="Switch to Hybrid Command Center Theme" aria-pressed="true">
+            <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="18" rx="1" fill="currentColor"></rect>
+              <rect x="10" y="3" width="11" height="18" rx="1"></rect>
+            </svg>
+            <span class="theme-label">HYBRID</span>
+          </button>
+          <button type="button" class="theme-switch-btn" data-theme-val="minimal-scientific" id="themeBtnMinimal" title="Switch to Minimal Scientific Theme" aria-pressed="false">
+            <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="9"></circle>
+              <line x1="12" y1="3" x2="12" y2="7"></line>
+              <line x1="12" y1="17" x2="12" y2="21"></line>
+              <line x1="3" y1="12" x2="7" y2="12"></line>
+              <line x1="17" y1="12" x2="21" y2="12"></line>
+            </svg>
+            <span class="theme-label">MINIMAL</span>
+          </button>
+        </div>
+
+        <button class="btn btn-secondary btn-sm" id="dashboardRefreshBtn" title="Refresh local telemetry and ping station nodes">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="23 4 23 10 17 10"></polyline>
+            <polyline points="1 20 1 14 7 14"></polyline>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+          </svg>
+          <span>Sync Telemetry</span>
+        </button>
+
+        <a href="emergencies.html" class="command-emergency-btn" id="commandEmergencyBtn" title="View Emergency Incident Log">
+          <span class="emergency-badge-pulse" id="headerEmergencyBadge">3 ALERTS</span>
+        </a>
+
+        <div class="header-notif-wrapper" style="margin: 0 4px;">
+          <button class="header-icon-btn" id="notifBellBtn" aria-label="Notifications" title="View Telemetry Broadcasts">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+            <span class="notif-badge" id="notifCountBadge">4</span>
+          </button>
+        </div>
+
+        <div class="operator-profile compact">
+          <div class="operator-avatar">OP</div>
+          <div class="operator-info">
+            <span class="operator-name">CMD. V. RATHORE</span>
+            <span class="operator-role">LOGISTICS DIR</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="app-body command-body">
+      <!-- Tactical Navigation Rail -->
+      <aside class="app-sidebar" id="appSidebar">
+        <nav class="sidebar-nav command-nav" aria-label="Command Rail Navigation">
+          <a href="../index.html" class="sidebar-nav-item rail-item" data-nav="overview" title="Platform Overview & Systems">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            <span class="rail-label">Overview</span>
+          </a>
+          <a href="dashboard.html" class="sidebar-nav-item rail-item active" data-nav="dashboard" title="Command Center Dashboard">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="22" y1="12" x2="18" y2="12"></line>
+              <line x1="6" y1="12" x2="2" y2="12"></line>
+              <line x1="12" y1="6" x2="12" y2="2"></line>
+              <line x1="12" y1="22" x2="12" y2="18"></line>
+            </svg>
+            <span class="rail-label">Command</span>
+          </a>
+          <a href="expeditions.html" class="sidebar-nav-item rail-item" data-nav="expeditions" title="Expeditions & Field Traverses (Phase 4)">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15 9 22 12 15 15 12 22 9 15 2 12 9 9 12 2"></polygon>
+            </svg>
+            <span class="rail-label">Expeditions</span>
+          </a>
+          <a href="cargo.html" class="sidebar-nav-item rail-item" data-nav="cargo" title="Cargo Logistics & Transport (Phase 5)">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="1" y="3" width="15" height="13"></rect>
+              <polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon>
+              <circle cx="5.5" cy="18.5" r="2.5"></circle>
+              <circle cx="18.5" cy="18.5" r="2.5"></circle>
+            </svg>
+            <span class="rail-label">Cargo</span>
+          </a>
+          <a href="inventory.html" class="sidebar-nav-item rail-item" data-nav="inventory" title="Station Supplies & Inventory (Phase 6)">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+            </svg>
+            <span class="rail-label">Inventory</span>
+          </a>
+          <a href="assets.html" class="sidebar-nav-item rail-item" data-nav="assets" title="Station Assets & Heavy Vehicles (Phase 7)">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+            </svg>
+            <span class="rail-label">Assets</span>
+          </a>
+          <a href="personnel.html" class="sidebar-nav-item rail-item" data-nav="personnel" title="Scientist & Crew Roster (Phase 8)">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            </svg>
+            <span class="rail-label">Personnel</span>
+          </a>
+          <a href="emergencies.html" class="sidebar-nav-item rail-item alert-rail" data-nav="emergencies" title="Search & Rescue Emergencies (Phase 9)">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+              <line x1="12" y1="9" x2="12" y2="13"></line>
+              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+            <span class="rail-label">Alerts</span>
+          </a>
+        </nav>
+        <div class="rail-footer">
+          <div class="rail-status-dot" title="Storage Engine: Local Online"></div>
+        </div>
+      </aside>
+
+      <!-- Mobile Backdrop -->
+      <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+      <!-- Main Operational Command Deck Workspace -->
+      <main class="app-main">
+        <div class="page-container" id="commandWorkspace">
+          <div class="page-header" style="display: none;"></div>
+          
+          <!-- ===================================================================
+               ZONE 1: PRIMARY POLAR OPERATIONS VISUALIZATION (HERO COMPONENT)
+               =================================================================== -->
+          <section class="command-visualization-panel" aria-label="Polar Operations Geographic Visualizer">
+            <div class="vis-header-bar">
+              <div class="vis-title-group">
+                <span class="vis-telemetry-tag">TACTICAL VISUALIZER</span>
+                <h2 class="vis-title">POLAR OPERATIONS GRID // ANTARCTIC &amp; ARCTIC BASINS</h2>
+              </div>
+              <div class="vis-controls">
+                <span class="vis-mode-chip">PROJECTION: POLAR STEREOGRAPHIC</span>
+                <span class="vis-mode-chip">SECTORS: QUEEN MAUD &bull; LARSEMANN &bull; SVALBARD</span>
+                <div class="vis-live-indicator">
+                  <span class="live-dot pulse"></span>
+                  <span>ONLINE FEED</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Interactive SVG Polar Operations Canvas -->
+            <div class="polar-svg-container" id="polarOpsMapContainer">
+              <!-- Dynamically populated and animated by DashboardModule.renderPolarMap() -->
+            </div>
+
+            <!-- Dynamic On-Map Telemetry HUD Card -->
+            <div class="polar-map-hud" id="polarMapHud">
+              <div class="hud-header">
+                <span class="hud-title" id="hudTitle">SYSTEM TELEMETRY HUD</span>
+                <span class="hud-status" id="hudStatus">READY</span>
+              </div>
+              <div class="hud-body" id="hudBody">
+                Hover or select an operational route or station marker to inspect active mission coordinates and telemetry.
+              </div>
+            </div>
+          </section>
+
+          <!-- ===================================================================
+               ZONE 2: COMPACT MISSION TELEMETRY STRIP (REPLACING SAAS CARDS)
+               =================================================================== -->
+          <section class="dashboard-telemetry-strip command-telemetry-strip" aria-label="Key Operational Telemetry">
+            <div class="dashboard-kpi-grid command-kpi-strip" id="kpiCardsContainer">
+              <!-- Dynamically rendered by DashboardModule.renderKPICards() -->
+            </div>
+          </section>
+
+          <!-- ===================================================================
+               ZONE 3: LOWER COMMAND OPERATIONS MONITORING WORKSPACE
+               =================================================================== -->
+          <div class="dashboard-grid-two-col command-grid-deck">
+            
+            <!-- LEFT COLUMN: ACTIVE OPERATIONS & LOGISTICS PIPELINE -->
+            <div class="command-deck-col">
+              
+              <!-- Active Operations Monitor -->
+              <div class="polar-card command-card">
+                <div class="polar-card-header command-card-header">
+                  <div class="polar-card-title">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--polar-cyan-primary);">
+                      <polygon points="12 2 15 9 22 12 15 15 12 22 9 15 2 12 9 9 12 2"></polygon>
+                    </svg>
+                    <span>ACTIVE FIELD OPERATIONS &amp; TRAVERSES</span>
+                  </div>
+                  <a href="expeditions.html" class="btn btn-ghost btn-sm">All Missions &rarr;</a>
+                </div>
+                <div class="polar-card-body command-card-body">
+                  <div class="expedition-list command-ops-list" id="dashboardExpeditionsList">
+                    <!-- Populated dynamically -->
+                  </div>
+                </div>
+              </div>
+
+              <!-- Logistics Pipeline & Cargo Flow -->
+              <div class="polar-card command-card">
+                <div class="polar-card-header command-card-header">
+                  <div class="polar-card-title">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--status-cyan);">
+                      <rect x="1" y="3" width="15" height="13"></rect>
+                      <polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon>
+                      <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                      <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                    </svg>
+                    <span>LOGISTICS PIPELINE &amp; CARGO CORRIDORS</span>
+                  </div>
+                  <a href="cargo.html" class="btn btn-ghost btn-sm">Manifests &rarr;</a>
+                </div>
+                <div class="polar-card-body command-card-body" style="padding: 0;">
+                  <!-- Visual Cargo Stage Pipeline Flow -->
+                  <div class="cargo-pipeline-diagram" id="cargoPipelineDiagram">
+                    <!-- Injected dynamically -->
+                  </div>
+                  <div id="dashboardCargoList">
+                    <!-- Populated dynamically -->
+                  </div>
+                </div>
+              </div>
+
+              <!-- Station Supply Health & Inventory -->
+              <div class="polar-card command-card">
+                <div class="polar-card-header command-card-header">
+                  <div class="polar-card-title">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--status-amber);">
+                      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                    </svg>
+                    <span>STATION INVENTORY &amp; CRITICAL RESERVES</span>
+                  </div>
+                  <a href="inventory.html" class="btn btn-ghost btn-sm">Inventory &rarr;</a>
+                </div>
+                <div class="polar-card-body command-card-body">
+                  <div id="dashboardInventoryHealth">
+                    <!-- Populated dynamically -->
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- RIGHT COLUMN: INCIDENT MONITOR & EVENT STREAM -->
+            <div class="command-deck-col">
+              
+              <!-- Dedicated Incident Monitor & SAR Alert Area -->
+              <div class="polar-card command-card incident-deck-card">
+                <div class="polar-card-header command-card-header">
+                  <div class="polar-card-title">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--status-red);">
+                      <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                      <line x1="12" y1="9" x2="12" y2="13"></line>
+                      <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                    <span>INCIDENT MONITOR // SEARCH &amp; RESCUE (SAR)</span>
+                  </div>
+                  <a href="emergencies.html" class="btn btn-ghost btn-sm">Emergency Center &rarr;</a>
+                </div>
+                <div class="polar-card-body command-card-body">
+                  <div id="dashboardEmergenciesList">
+                    <!-- Populated dynamically -->
+                  </div>
+                </div>
+              </div>
+
+              <!-- Operational Event Stream / Timeline -->
+              <div class="polar-card command-card">
+                <div class="polar-card-header command-card-header">
+                  <div class="polar-card-title">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--polar-text-secondary);">
+                      <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                    </svg>
+                    <span>LIVE OPERATIONAL EVENT STREAM</span>
+                  </div>
+                  <span class="badge badge-neutral">Real-time Feed</span>
+                </div>
+                <div class="polar-card-body command-card-body">
+                  <div id="dashboardActivityTimeline">
+                    <!-- Populated dynamically -->
+                  </div>
+                </div>
+              </div>
+
+              <!-- Rule-Based Operational Diagnostics -->
+              <div class="polar-card command-card">
+                <div class="polar-card-header command-card-header">
+                  <div class="polar-card-title">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--polar-cyan-primary);">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="12" y1="16" x2="12" y2="12"></line>
+                      <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                    <span>AUTONOMOUS OPERATIONAL INSIGHTS</span>
+                  </div>
+                  <span class="badge badge-neutral">Autonomous Rules</span>
+                </div>
+                <div class="polar-card-body command-card-body">
+                  <div id="dashboardInsightsList">
+                    <!-- Populated dynamically -->
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Core Scripts in Strict Dependency Order -->
+  <script src="../js/storage.js"></script>
+  <script src="../data/dummyData.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/dashboard.js"></script>
+</body>
+</html>
